@@ -69,7 +69,7 @@ let server = http.createServer((req, res) => {
                                 res.write(JSON.stringify({ Message: "Data send successfully", body }));
 
                                 res.end();
-                            }catch(err){
+                            } catch (err) {
                                 res.writeHead(500, {
                                     "content-type": "application/json"
                                 })

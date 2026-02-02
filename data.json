@@ -40,5 +40,11 @@
     "dealerName": "Alex",
     "tonnnage": 2000,
     "cost": 1200000
+  },
+  {
+    "produce-name": "Rice",
+    "dealerName": "Axel",
+    "tonnnage": 2000,
+    "cost": 1900000
   }
 ]

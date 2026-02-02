@@ -1,0 +1,28 @@
+{
+  "name": "node-js",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/greatkevingkpro-svg/Procurement-Backend#readme",
+  "bugs": {
+    "url": "https://github.com/greatkevingkpro-svg/Procurement-Backend/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/greatkevingkpro-svg/Procurement-Backend.git"
+  },
+  "license": "ISC",
+  "author": "kevin",
+  "type": "commonjs",
+  "main": "npm.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^5.2.1",
+    "upper-case": "^2.0.2"
+  },
+  "devDependencies": {
+    "is-even": "^1.0.0"
+  }
+}
