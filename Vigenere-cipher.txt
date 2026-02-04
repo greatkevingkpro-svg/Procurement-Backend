@@ -1,0 +1,25 @@
+// ENCRYPTION
+
+a = 0   f = 5   k = 10   p = 15   u = 20   z = 25 
+b = 1   g = 6   l = 11   q = 16   v = 21
+c = 2   h = 7   m = 12   r = 17   w = 22
+d = 3   i = 8   n = 13   s = 18   x = 23
+e = 4   j = 9   o = 14   t = 19   y = 24
+
+Plain Text => ATTACK   A T T A C K
+Key Word   => LEMON    L E M O N L
+
+A(0)+L(11)      T(19)+E(4)      T(19)+M(12)     A(0)+O(14)    C(2)+N(13)    K(10)+L(11)
+11=L            23=X            31-26= 5=F      14=O          15=P          21=V
+
+THE ENCRYPTED WORD OF ATTACK => LXFOPV
+
+// DECRYPTION
+
+ENCRYPTED Text => LXFOPV   L X F O P V 
+Key Word       => LEMON    L E M O N L
+
+L(11)-L(11)     X(23)-E(4)     F(5)-M(12)     O(14)-O(14)    P(15)-N(13)    V(21)-L(11)
+0=A             19=T           -7+26= 19=T    0=A            2=C            10=k
+
+THE DECRYPTED WORD OF LXFOPV => ATTACK

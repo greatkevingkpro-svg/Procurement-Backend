@@ -1,3 +1,5 @@
+// Exercise2.1:Write encryption
+
 function caesarEncrypt(text, shift) {
   let result = '';
   for (let i = 0; i < text.length; i++) {
@@ -28,15 +30,16 @@ function caesarEncrypt(text, shift) {
   } return result;
 }
 console.log(caesarEncrypt("Hello World", 3));
-
 // try using shift right 5 from part 1.1
 console.log(caesarEncrypt("MEET ME AN NOON", 5));
 
+
+
 // Exercise2.2:WriteDecryption
+
 function caesarDecrypt(text, shift) { 
   // TODO: Write decryption 
   //Hint: Same as encrypt but subtract shift
-
 
   let result = '';
   for (let i = 0; i < text.length; i++) {
@@ -57,6 +60,5 @@ function caesarDecrypt(text, shift) {
   } return result;
   } 
 console.log(caesarDecrypt("Khoor Zruog", 3));
-
 // try using shift left 7 from part 1.2
 console.log(caesarDecrypt("OLSSV", 7));
