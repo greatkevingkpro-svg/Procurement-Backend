@@ -1,12 +1,18 @@
-const http = require('http');
+const es = require('express');
 const fs = require('fs');
 
 let port = 3000;
 
-let server = http.createServer((req, res) => {
+const app = express();
+app.use(express.json());
 
-    if (req.method === 'GET' && req.url === '/kgl/procurement') {
-        fs.readFile('data.json', (err, data) => {
+
+
+// let server = app.use((req, res) => {
+
+// if (req.method === 'GET' && req.url === '/kgl/procurement') {
+app.get('/kgl/procurement', (req, res) => {
+    fs.readFile('data.json', (err, data) => {
             if (err) {
                 res.writeHead(500, {
                     "content-type": "application.json"

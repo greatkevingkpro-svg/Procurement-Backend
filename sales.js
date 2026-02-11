@@ -5,14 +5,14 @@ class Sale {
     this.path = path;
     this.sales = [];
 
-    fs.readFile(this.path) {
+    fs.readFile(this.path) 
       .then((data, err) => {
         if (err) {
           console.log()
         }
       })
 
-    }
+    
 
   }
 }
