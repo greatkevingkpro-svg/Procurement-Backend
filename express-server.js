@@ -1,5 +1,6 @@
 const express = require("express");
 const { Sale } = require("./sale.js");
+const e = require("express");
 
 const sale = new Sale();
 const app = express();
@@ -7,13 +8,34 @@ const app = express();
 // middleware
 app.use(express.json());
 
+const userDetailsMiddleware = (req, res, next) => {
+  const userDetailString = req.get("user-details");
+  if(!userDetailString) {
+    res.status(403).json({message:"there is no user info found"});
+  }
+
+  const userDetails = JSON.parse(userDetailString);
+  console.log(userDetails);
+
+
+  if(userDetails.role && userDetails.role.toLowerCase() === "admin") {
+    next();
+  } else {
+    res.status(403).json({message:"you are not authorized to access this resource"});
+  }
+
+  next();
+}
+
+// app.use(userDetailsMiddleware)
+
 // get request to the homepage
 app.get("/", (req, res) => {
   res.send('hello world from from Kevin');
 });
 
 // get request to the sales page
-app.get("/sales", (req, res) => {
+app.get("/sales", userDetailsMiddleware, (req, res) => {
   res.json(sale.getAllSales());
 });
 
