@@ -1,6 +1,7 @@
 const fs = require("fs/promises");
 
 class Sale {
+
   constructor(path="sales.json") {
     this.path = path;
     this.sales = [];
@@ -31,6 +32,7 @@ class Sale {
     return await this.save();
   }
 
+  // save the sales to the file
   async save() {
     let isSavedSuccessful
     await fs.writeFile(this.path, JSON.stringify(this.sales))

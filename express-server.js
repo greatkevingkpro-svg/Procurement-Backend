@@ -40,29 +40,6 @@ app.post("/sales", async (req, res) => {
     res.status(400);
     res.json({message: "sale could not be saved"});
   }
-
-  /*
-  try {
-    let body = req.body;
-    let saveState = await sale.add(body);
-
-    if (saveState === true) {
-      return res.status(201).json({
-        message: "sale saved successfully"
-      });
-    } else {
-      return res.status(400).json({
-        message: "sale could not be saved"
-      });
-    }
-
-  } catch (error) {
-    return res.status(500).json({
-      message: "Internal Server Error",
-      error: error.message
-    });
-  }
-  */
 });
 
 app.listen(3000, (err) => {

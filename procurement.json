@@ -1,0 +1,13 @@
+[
+  {
+    "produce": "Rice",
+    "typeofproduce": "grain",
+    "tonnageInKg": 1700,
+    "pricePerKg": 2500,
+    "totalPrice": 4250000,
+    "supplier": "Great",
+    "contact": "0756014694",
+    "dateOfProcurement": "2026-05-01",
+    "branch": "mattuga"
+  }
+]
