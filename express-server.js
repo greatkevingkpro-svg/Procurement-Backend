@@ -8,6 +8,16 @@ const app = express();
 // middleware
 app.use(express.json());
 
+const simulateSalesAgent = (req, res, next) => {
+  req.user = {
+    role: "manager",
+    username: "ALly"
+  }
+
+  next();
+}
+app.use(simulateSalesAgent);
+
 const userDetailsMiddleware = (req, res, next) => {
   const userDetailString = req.get("user-details");
   if(!userDetailString) {
@@ -19,6 +29,7 @@ const userDetailsMiddleware = (req, res, next) => {
 
 
   if(userDetails.role && userDetails.role.toLowerCase() === "admin") {
+    req.user = userDetails
     next();
   } else {
     res.status(403).json({message:"you are not authorized to access this resource"});
@@ -27,7 +38,14 @@ const userDetailsMiddleware = (req, res, next) => {
   next();
 }
 
-// app.use(userDetailsMiddleware)
+const isDirectorOrManager = (req, res, next) => {
+  if(req.user && (req.user.role.toLowerCase() === "director" || req.user.role.toLowerCase() === "manager")) {
+    next();
+  } else {
+    res.status(403).json({message:"you are not authorized to access this resource"});
+  }
+  next();
+}  
 
 // get request to the homepage
 app.get("/", (req, res) => {
@@ -35,11 +53,11 @@ app.get("/", (req, res) => {
 });
 
 // get request to the sales page
-app.get("/sales", userDetailsMiddleware, (req, res) => {
+app.get("/sales", isDirectorOrManager, (req, res) => {
   res.json(sale.getAllSales());
 });
 
-app.get("/sales/:item", (req, res) => {
+app.get("/sales/:item",isDirectorOrManager, (req, res) => {
   let item = req.params.item;
 
   let _sale = sale.getSaleByItem(item);
