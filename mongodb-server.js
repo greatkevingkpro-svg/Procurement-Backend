@@ -42,6 +42,7 @@ let creditSalesSchema = new mongoose.Schema({
   },
   amountDue: {
     type: Number,
+    min: 1000,
     required: true
   },
   nationalID: {

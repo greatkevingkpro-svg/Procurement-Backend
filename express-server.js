@@ -59,7 +59,7 @@ app.get("/", (req, res) => {
  * this method is to retrieve all sales from the database
  */
 app.get("/sales", async (req, res) => {
-  try{
+  try {
     let sales = await saleModel.find({});
     res.status(200).json(sales);
   } catch (error) {
@@ -72,7 +72,7 @@ app.get("/sales", async (req, res) => {
  * this method is to retrieve all credit sales from the database
  */
 app.get("/credit-sales", async (req, res) => {
-  try{
+  try {
     let sales = await creditSalesModel.find({});
     res.status(200).json(sales);
   } catch (error) {
@@ -93,7 +93,7 @@ app.get("/sales/:item", async (req, res) => {
 
   try {
     let sales = await saleModel.find({ _item: item });
-    if(!sales) {
+    if (!sales) {
       res.status(404).json({ message: "sale not found" });
     }
     res.status(200).json(sales);
@@ -125,7 +125,7 @@ app.post("/sales", async (req, res) => {
   }
 });
 
- 
+
 /**
  * post request to the credit sales page
  * this method is to save a credit sale to the database
@@ -147,6 +147,47 @@ app.post("/credit-sales", async (req, res) => {
     res.status(400).json({ message: "there was an error processing your request", error, body });
   }
 });
+
+/**
+ * patch method
+ */
+app.patch("/credit-sales/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+    const body = req.body;
+
+    let updatedCreditSale = await creditSalesModel.findByIdAndUpdate(id, body, { new: true, runValidators: true });
+
+    if (updatedCreditSale) {
+      res.status(200).json({ message: "update successfully", body })
+    } else {
+      res.status(400).json({ message: "failed to update" });
+    }
+  } catch (err) {
+    res.status(400).json({ message: "failed to update credit sale", err })
+  }
+})
+
+/**
+ * delete route
+ */
+app.delete("/credit-sales/:creditSaleId", async (req, res) => {
+  try {
+    const id = req.params.creditSaleId;
+
+    let result = await creditSalesModel.findByIdAndDelete(id);
+
+    if(result) {
+      res.status(200).json({message:"crdit deleted successfully", body:result})
+    } else {
+      res.status(400).json({message:"failed to delete credit"})
+    }
+
+  } catch (err) {
+    res.status(400).json({message:"failed to delete credit", err})
+  }
+})
+
 
 app.listen(3000, (err) => {
   if (err) {
