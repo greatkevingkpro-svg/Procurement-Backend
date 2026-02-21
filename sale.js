@@ -21,9 +21,9 @@ class Sale {
     return this.sales
   }
 
-  // get sales by item
-  getSaleByItem(item) {
-    return this.sales.find(sale => sale.item === item);
+  // get sales by id
+  getSaleByid(id) {
+    return this.sales.find(sale => sale.id === id);
   }
 
   // add a new sale
