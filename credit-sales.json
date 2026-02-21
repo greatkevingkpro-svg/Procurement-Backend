@@ -1,0 +1,10 @@
+[
+  {
+    "item": "Laptop",
+    "customerName": "John Doe",
+    "amountDue": 1200,
+    "dueDate": "2026-07-15",
+    "nationalID": "123456789"
+  }
+  
+]
