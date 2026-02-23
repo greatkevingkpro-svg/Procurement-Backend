@@ -1,7 +1,10 @@
 const express = require("express");
+const cors = require('cors');
+
 const { Sale } = require("./sale.js");
 const {router: salesRouter} = require("./routers/sales.js")
 const {router: creditSales} = require("./routers/credit-sales.js")
+const {router: userRouter} = require("./routers/users.js")
 const {simulateSalesAgent} = require("./middleware/index.js")
 const {errorHandler} = require("./middleware/erro.js")
 
@@ -14,8 +17,9 @@ const app = express();
 
 // middleware
 app.use(express.json());
-
 app.use(simulateSalesAgent);
+// Allow all origins
+app.use(cors());
 
 
 // get request to the homepage
@@ -25,6 +29,7 @@ app.get("/", (req, res) => {
 
 app.use("/sales",salesRouter);
 app.use("/credit-sales", creditSales);
+app.use("/users", userRouter)
 
 app.use(errorHandler);
 
