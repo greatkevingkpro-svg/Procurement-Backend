@@ -7,8 +7,38 @@ const router = express.Router();
 
 
 /**
- * get request to the sales page
- * this method is to retrieve all sales from the database
+ * @swagger
+ * /sales:
+ *   get:
+ *     summary: Get all sales
+ *     description: Retrieve a list of all sales in the system
+ *     tags:
+ *       - Sales
+ *     responses:
+ *       200:
+ *         description: A list of sales
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   _id:
+ *                     type: string
+ *                     description: The unique identifier for the sale
+ *                   amount:
+ *                     type: number
+ *                     description: The amount of the sale
+ *                   customerName:
+ *                     type: string
+ *                     description: The name of the customer who made the sale
+ *                   date:
+ *                     type: string
+ *                     description: The date of the sale
+ *                   currency:
+ *                     type: string
+ *                     description: The currency of the sale
  */
 router.get("/", async (req, res) => {
   try {
@@ -22,6 +52,51 @@ router.get("/", async (req, res) => {
 
 
 
+/**
+ * @swagger
+ * /sales/{id}:
+ *   get:
+ *     summary: Get a sale by ID
+ *     description: Retrieve a specific sale using its MongoDB ObjectId.
+ *     tags:
+ *       - Sales
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: MongoDB ObjectId of the sale
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: A list of users
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   _id:
+ *                     type: string
+ *                     description: The unique identifier for the sale
+ *                   amount:
+ *                     type: number
+ *                     description: The amount of the sale
+ *                   customerName:
+ *                     type: string
+ *                     description: The name of the customer who made the sale
+ *                   date:
+ *                     type: string
+ *                     description: The date of the sale
+ *                   currency:
+ *                     type: string
+ *                     description: The currency of the
+ *       400:
+ *         description: Invalid ID supplied
+ *       404:
+ *         description: Sale not found
+ */
 router.get("/:id", async (req, res, next) => {
   let id = req.params.id;
 
@@ -50,8 +125,32 @@ router.get("/:id", async (req, res, next) => {
 
 
 /**
- * post request to the sales page
- * this method is to save a sale to the database
+ * @swagger
+ * /sales:
+ *   post:
+ *     summary: Create a new sale
+ *     description: Save a new sale to the database
+ *     tags:
+ *       - Sales
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               amount:
+ *                 type: number
+ *                 description: The amount of the sale
+ *               customerName:
+ *                 type: string
+ *                 description: The name of the customer who made the sale
+ *               date:
+ *                 type: string
+ *                 description: The date of the sale (in ISO 8601 format)
+ *               currency:
+ *                 type: string
+ *                 description: The currency of the sale (e.g., USD, EUR)
  */
 router.post("/", async (req, res) => {
   let body = req.body;
