@@ -1,6 +1,7 @@
 const express = require("express");
 const {usersModel} = require("../models/users.js");
 const {KGLError} = require("../utils/custom-error.js")
+const bcrypt = require("bcrypt")
 
 const router = express.Router();
 
@@ -175,7 +176,9 @@ router.post("/", async (req, res, next) => {
   try{
     let body = req.body;
 
-    body.password = "1234567890"
+    // hash the password before saving it to the databse
+    const saltRounds = 10;
+    body.password = await bcrypt.hash(body.password, saltRounds);
 
     let user = new usersModel(body);
 

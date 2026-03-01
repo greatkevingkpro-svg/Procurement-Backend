@@ -1,5 +1,5 @@
 const express = require("express");
-const { creditSalesModel } = require("../mongodb-server.js");
+const { creditSalesModel } = require("../models/sales.js");
 
 // create routers for sales
 const router = express.Router();

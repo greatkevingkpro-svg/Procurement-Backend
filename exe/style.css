@@ -1,0 +1,23 @@
+
+  /* Customizing the Primary Button */
+  .btn-custom {
+    background: linear-gradient(45deg, #6a11cb 0%, #2575fc 100%);
+    border: none;
+    color: white;
+    transition: transform 0.2s ease-in-out;
+  }
+  .btn-custom:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+  }
+
+  /* Soft Card Style */
+  .card-modern {
+    border: none;
+    border-radius: 15px;
+    background: #f8f9fa;
+  }
+
+.input-group .btn {
+  border-left: 0;
+}

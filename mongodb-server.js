@@ -1,56 +1,29 @@
+
 const mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
+const { usersModel } = require("./models/users.js")
 
-const URI = "mongodb://localhost:27017/kgl-database";
-mongoose.connect(URI)
-  .then(() => {
+const URI = process.env.MONGODB_URI
+
+async function connectDbHashPassword() {
+  try {
+    await mongoose.connect(URI)
     console.log("connected to the mongodb database");
-  })
-  .catch((err) => {
+
+    const users = await usersModel.find({});
+    for (let user of users) {
+      // only hash passwords that are not already hashed
+      if (!user.password.startsWith("$2b$")) {
+        user.password = await bcrypt.hash(user.password, 10);
+        await user.save();
+        console.log(`Updated password for user: ${user.email}`);
+      }
+    }
+
+    console.log("Migration complete");
+  } catch {
     console.log(err);
-  });
+  }
+}
 
-let salesSchema = new mongoose.Schema({
-  amount: {
-    type: Number,
-    required: true
-  },
-  customerName: {
-    type: String,
-    required: true
-  },
-  date: {
-    type: Date,
-    required: true
-  },
-  currency: {
-    type: String,
-    required: true
-  },
-});
-
-let saleModel = mongoose.model("sales", salesSchema);
-
-
-let creditSalesSchema = new mongoose.Schema({
-  item: {
-    type: String,
-    required: true
-  },
-  customerName: {
-    type: String,
-    required: true
-  },
-  amountDue: {
-    type: Number,
-    min: 1000,
-    required: true
-  },
-  nationalID: {
-    type: String,
-    required: true
-  },
-});
-
-let creditSalesModel = mongoose.model("credit-sales", creditSalesSchema);
-
-module.exports = { saleModel, creditSalesModel };
+module.exports = {connectDbHashPassword}

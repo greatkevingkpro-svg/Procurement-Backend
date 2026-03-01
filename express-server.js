@@ -1,14 +1,23 @@
+require("dotenv").config()
 const express = require("express");
 const cors = require('cors');
 const swaggerUi = require("swagger-ui-express");
 const swaggerJSDoc = require("swagger-jsdoc");
 const basicAuth = require("express-basic-auth");
 
+// connect to mongodb
+const {connectDbHashPassword} = require("./mongodb-server.js")
+connectDbHashPassword();
+
 //routers 
 const { Sale } = require("./sale.js");
 const {router: salesRouter} = require("./routers/sales.js")
 const {router: creditSales} = require("./routers/credit-sales.js")
 const {router: userRouter} = require("./routers/users.js")
+const {router: adminRouter } = require("./routers/admin.js")
+const {router: authRouter } = require("./routers/auth.js")
+const {authMiddleware} = require("./middleware/authMiddleware.js")
+const {protectedRouter} = require("./middleware/protectedRouter.js")
 
 // middleware
 const {simulateSalesAgent} = require("./middleware/index.js")
@@ -55,11 +64,17 @@ const swaggerSpec = swaggerJSDoc(options);
 app.use("/api-docs", swaggerAuth, swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 
-// middleware
-app.use(express.json());
-app.use(simulateSalesAgent);
+
 // Allow all origins
 app.use(cors());
+
+
+app.use(express.json());
+
+// middleware
+app.use(simulateSalesAgent);
+
+
 
 
 // get request to the homepage
@@ -67,17 +82,26 @@ app.get("/", (req, res) => {
   res.send('hello world from from Kevin');
 });
 
+app.post("/login", (req, res) => {
 
-app.use("/sales",salesRouter);
-app.use("/credit-sales", creditSales);
-app.use("/users", userRouter)
+})
+
+
+protectedRouter.use("/sales",salesRouter);
+protectedRouter.use("/credit-sales", creditSales);
+protectedRouter.use("/users", userRouter);
+protectedRouter.use("/admin", adminRouter);
+
+app.use("/auth", authRouter);
+app.use("/", authMiddleware, protectedRouter)
 
 app.use(errorHandler);
 
-app.listen(3000, (err) => {
+const PORT = process.env.PORT || 3000
+app.listen(PORT, (err) => {
   if (err) {
     console.log('Errror');
   } else {
-    console.log('Server is successfully running on port 3000');
+    console.log(`Server is successfully running on port: ${ PORT}`);
   }
 });

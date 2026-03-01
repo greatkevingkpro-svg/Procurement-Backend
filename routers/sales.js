@@ -1,6 +1,6 @@
 const express = require("express");
 const {KGLError} = require("../utils/custom-error.js")
-const { saleModel } = require("../mongodb-server.js");
+const { saleModel } = require("../models/sales.js");
 
 // create routers for sales
 const router = express.Router();

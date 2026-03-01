@@ -36,4 +36,34 @@ const isDirectorOrManager = (req, res, next) => {
   next();
 }
 
-module.exports = { userDetailsMiddleware, isDirectorOrManager, simulateSalesAgent };
+const isNotSalesManager = (req, res, next) => {
+  if (!req.user) {
+    return res.status(401).json({
+      message: "Authentication required"
+    });
+  }
+
+  if (req.user.role.toLowerCase() !== "sales-manager") {
+    res.status(403).json({ message: "You are not authorised to access this resource" })
+  }
+
+  return next();
+}
+
+const isAdmin = (req, res, next) => {
+  if (!req.user) {
+    return res.status(401).json({
+      message: "Authentication required"
+    });
+  }
+
+  if (req.user.role.toLowerCase() !== "admin") {
+    return res.status(403).json({
+      message: "Only admins can access this resource"
+    });
+  }
+
+  return next();
+};
+
+module.exports = { userDetailsMiddleware, isDirectorOrManager, simulateSalesAgent, isNotSalesManager, isAdmin };
